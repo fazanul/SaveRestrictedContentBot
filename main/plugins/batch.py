@@ -41,7 +41,7 @@ async def _batch(event):
         await event.reply(r)
         return       
     if f'{event.sender_id}' in batch:
-        return await event.reply("You've already started one batch, wait for it to complete you dumbfuck owner!")
+        return await event.reply("You've already started one batch!")
     async with Drone.conversation(event.chat_id) as conv: 
         if s != True:
             await conv.send_message("Send me the message link you want to start saving from, as a reply to this message.", buttons=Button.force_reply())
@@ -80,20 +80,20 @@ async def run_batch(userbot, client, sender, link, _range):
     for i in range(_range):
         timer = 60
         if i < 25:
-            timer = 5
+            timer = 2
         if i < 50 and i > 25:
-            timer = 10
+            timer = 3
         if i < 100 and i > 50:
-            timer = 15
+            timer = 4
         if not 't.me/c/' in link:
             if i < 25:
-                timer = 2
+                timer = 1
             else:
-                timer = 3
+                timer = 2
         try:
             await get_bulk_msg(userbot, client, sender, link, i) 
         except FloodWait as fw:
-            await asyncio.sleep(fw.seconds + 5)
+            await asyncio.sleep(fw.seconds + 2)
             await get_bulk_msg(userbot, client, sender, link, i)
         protection = await client.send_message(sender, f"Sleeping for `{timer}` seconds to avoid Floodwaits and Protect account!")
         time.sleep(timer)
